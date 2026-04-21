@@ -1,0 +1,28 @@
+services:
+  - name: myway-backend
+    type: web
+    runtime: python3
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn backend.server:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: MONGO_URL
+        value: # Set your MongoDB URL
+      - key: DB_NAME
+        value: # Set your DB name
+      - key: JWT_SECRET
+        value: # Set your JWT secret
+      - key: CLOUDINARY_CLOUD_NAME
+        value: # Set Cloudinary cloud name
+      - key: CLOUDINARY_API_KEY
+        value: # Set Cloudinary API key
+      - key: CLOUDINARY_API_SECRET
+        value: # Set Cloudinary API secret
+
+  - name: myway-frontend
+    type: web
+    runtime: static
+    buildCommand: yarn install && yarn build
+    staticPublishPath: frontend/build
+    envVars:
+      - key: REACT_APP_BACKEND_URL
+        value: # Set to the backend service URL, e.g., https://myway-backend.onrender.com
